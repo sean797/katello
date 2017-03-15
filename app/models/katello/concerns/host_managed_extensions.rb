@@ -29,7 +29,7 @@ module Katello
       end
 
       def validate_media_with_capsule?
-        (content_source_id.blank? || (content_facet && content_facet.kickstart_repository.blank?)) && validate_media_without_capsule?
+        (content_source_url_id.blank? || (content_facet && content_facet.kickstart_repository.blank?)) && validate_media_without_capsule?
       end
 
       def rhsm_organization_label
@@ -42,7 +42,7 @@ module Katello
 
       def smart_proxy_ids_with_katello
         ids = smart_proxy_ids_without_katello
-        ids << content_source_id
+        ids << content_source.id
         ids.uniq.compact
       end
 
@@ -52,6 +52,7 @@ module Katello
         info['parameters']['kt_cv'] = self.content_view.try(:label) #deprecated
         info['parameters']['lifecycle_environment'] = self.lifecycle_environment.try(:label)
         info['parameters']['content_view'] = self.content_view.try(:label)
+        info['parameters']['content_source_url'] = self.content_source_url.try(:url)
         info['parameters']['foreman_host_collections'] = self.host_collections.map(&:name)
         if self.content_facet.present?
           info['parameters']['kickstart_repository'] = self.content_facet.kickstart_repository.try(:label)
@@ -115,5 +116,5 @@ module Katello
 end
 
 class ::Host::Managed::Jail < Safemode::Jail
-  allow :content_source, :subscription_manager_configuration_url, :rhsm_organization_label
+  allow :content_source_url, :subscription_manager_configuration_url, :rhsm_organization_label
 end

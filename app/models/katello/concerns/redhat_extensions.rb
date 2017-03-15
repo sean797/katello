@@ -57,9 +57,9 @@ module Katello
 
       def kickstart_repos(host)
         distros = distribution_repositories(host)
-        if distros && host.content_source
+        if distros && host.content_source_url
           distros.map do |distro|
-            {:id => distro.id, :name => distro.name, :path => distro.full_path(host.content_source)}
+            {:id => distro.id, :name => distro.name, :path => distro.full_path(host.content_source_url)}
           end
         else
           []

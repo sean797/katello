@@ -40,9 +40,9 @@ module Katello
                  :source     => :lifecycle_environment
 
         has_many :hosts,      :class_name => "::Host::Managed", :foreign_key => :content_source_id,
-                              :inverse_of => :content_source
+                              :inverse_of => :content_source, :through => 'urls'
         has_many :hostgroups, :class_name => "::Hostgroup",     :foreign_key => :content_source_id,
-                              :inverse_of => :content_source
+                              :inverse_of => :content_source, :through => 'urls'
 
         validates :download_policy, inclusion: {
           :in => DOWNLOAD_POLICIES,

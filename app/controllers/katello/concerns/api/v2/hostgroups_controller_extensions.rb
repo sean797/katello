@@ -21,7 +21,7 @@ module Katello
             param :realm_id, :number, :desc => N_('Realm ID')
             param :puppet_proxy_id, :number, :desc => N_('Puppet proxy ID')
             param :root_pass, String, :desc => N_('Root password on provisioned hosts')
-            param :content_source_id, :number, :desc => N_('Content source ID')
+            param :content_source_url_id, :number, :desc => N_('Content source URL ID')
             param :content_view_id, :number, :desc => N_('Content view ID')
             param :lifecycle_environment_id, :number, :desc => N_('Lifecycle environment ID')
             param :kickstart_repository_id, :number, :desc => N_('Kickstart repository ID')

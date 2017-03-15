@@ -7,7 +7,8 @@ module Katello
       belongs_to :kickstart_repository, :class_name => "::Katello::Repository", :foreign_key => :kickstart_repository_id, :inverse_of => :kickstart_content_facets
       belongs_to :content_view, :inverse_of => :content_facets, :class_name => "Katello::ContentView"
       belongs_to :lifecycle_environment, :inverse_of => :content_facets, :class_name => "Katello::KTEnvironment"
-      belongs_to :content_source, :class_name => "::SmartProxy", :foreign_key => :content_source_id, :inverse_of => :hosts
+      belongs_to :content_source_url, :class_name => "::SmartProxyUrl", :foreign_key => :content_source_url_id
+      has_one :content_source, :through => :content_source_url, :source => :smart_proxy
 
       has_many :applicable_errata, :through => :content_facet_errata, :class_name => "Katello::Erratum", :source => :erratum
       has_many :content_facet_errata, :class_name => "Katello::ContentFacetErratum", :dependent => :destroy, :inverse_of => :content_facet
@@ -180,7 +181,7 @@ module Katello
         facet_attributes[:kickstart_repository_id] ||= hostgroup.inherited_kickstart_repository_id
         facet_attributes[:content_view_id] ||= hostgroup.inherited_content_view_id
         facet_attributes[:lifecycle_environment_id] ||= hostgroup.inherited_lifecycle_environment_id
-        facet_attributes[:content_source_id] ||= hostgroup.inherited_content_source_id
+        facet_attributes[:content_source_url_id] ||= hostgroup.inherited_content_source_url_id
         facet_attributes
       end
 

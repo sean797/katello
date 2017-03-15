@@ -116,7 +116,7 @@ KT.hosts.getSelectedEnvironment = function () {
 
 KT.hosts.onKatelloHostEditLoad = function(){
     var prefxies = ['host', 'hostgroup'],
-        attributes = ['lifecycle_environment_id', 'content_view_id', 'environment_id', 'content_source_id', 'architecture_id'];
+        attributes = ['lifecycle_environment_id', 'content_view_id', 'environment_id', 'content_source_url_id', 'architecture_id'];
 
     $.each(prefxies, function(index, prefix) {
         $.each(attributes, function(attrIndex, attribute) {
@@ -128,23 +128,23 @@ KT.hosts.onKatelloHostEditLoad = function(){
 };
 
 KT.hosts.toggle_installation_medium = function() {
-    var lifecycle_environment_id, content_source_id, architecture_id, operatingsystem_id, content_view_id;
+    var lifecycle_environment_id, content_source_url_id, architecture_id, operatingsystem_id, content_view_id;
 
     if ($('#hostgroup_parent_id').length > 0) {
       lifecycle_environment_id = KT.hosts.getSelectedEnvironment();
       content_view_id = KT.hosts.getSelectedContentView();
-      content_source_id = $('#hostgroup_content_source_id').val();
+      content_source_url_id = $('#hostgroup_content_source_url_id').val();
       architecture_id = $('#hostgroup_architecture_id').val();
       operatingsystem_id = $('#hostgroup_operatingsystem_id').val();
     } else {
       lifecycle_environment_id = KT.hosts.getSelectedEnvironment();
       content_view_id = KT.hosts.getSelectedContentView();
-      content_source_id = $('#host_content_source_id').val();
+      content_source_url_id = $('#host_content_source_url_id').val();
       architecture_id = $('#host_architecture_id').val();
       operatingsystem_id = $('#host_operatingsystem_id').val();
     }
 
-    if (content_view_id && lifecycle_environment_id && content_source_id && architecture_id && operatingsystem_id) {
+    if (content_view_id && lifecycle_environment_id && content_source_url_id && architecture_id && operatingsystem_id) {
         os_selected(KT.hosts.get_os_element());
     }
 };
@@ -257,7 +257,7 @@ function os_selected(element){
     var type = $(element).attr('data-type');
     var attrs = {};
     attrs[type] = attribute_hash(['operatingsystem_id', 'organization_id', 'location_id', 'content_view_id',
-                                  'lifecycle_environment_id', 'content_source_id', 'architecture_id', 'hostgroup_id',
+                                  'lifecycle_environment_id', 'content_source_url_id', 'architecture_id', 'hostgroup_id',
                                   'medium_id', 'kickstart_repository_id']);
   tfm.tools.showSpinner();
   $.ajax({

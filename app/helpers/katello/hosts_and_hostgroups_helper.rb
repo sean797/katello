@@ -98,12 +98,12 @@ module Katello
       envs
     end
 
-    def accessible_content_proxies(obj)
-      list = accessible_resource_records(:smart_proxy).with_content.to_a
-      current = obj.content_source
-      list |= [current] if current.present?
-      list
-    end
+#    def accessible_content_proxies(obj)
+#      list = accessible_resource_records(:smart_proxy).with_content.to_a
+#      current = obj.content_source
+#      list |= [current] if current.present?
+#      list
+#    end
 
     def relevant_organizations(host)
       host_orgs = organizations(host)
@@ -200,11 +200,11 @@ module Katello
         if (host.is_a? Hostgroup)
           new_host.content_facet = ::Katello::Host::ContentFacet.new(:lifecycle_environment_id => host.lifecycle_environment_id,
                                                           :content_view_id => host.content_view_id,
-                                                          :content_source_id => host.content_source_id)
+                                                          :content_source_url_id => host.content_source_url_id)
         elsif host.content_facet.present?
           new_host.content_facet = ::Katello::Host::ContentFacet.new(:lifecycle_environment_id => host.content_facet.lifecycle_environment_id,
                                                           :content_view_id => host.content_facet.content_view_id,
-                                                          :content_source_id => host.content_source_id)
+                                                          :content_source_url_id => host.content_source_url_id)
         end
         new_host.operatingsystem.kickstart_repos(new_host).map { |repo| OpenStruct.new(repo) }
       else
@@ -219,7 +219,7 @@ module Katello
       # In this case we want it play by the rules of "one of these params" and
       # need to figure out the available KS repos for the given params.
       os_selection_params = ["operatingsystem_id", 'content_view_id', 'lifecycle_environment_id',
-                             'content_source_id', 'architecture_id']
+                             'content_source_url_id', 'architecture_id']
       view_options = []
       host_params = params[:hostgroup] || params[:host]
       if host_params && os_selection_params.all? { |key| host_params[key].present? }
@@ -233,7 +233,7 @@ module Katello
         content_view = Katello::ContentView.find(host_params[:content_view_id])
         host.content_facet = Host::ContentFacet.new(:lifecycle_environment_id => lifecycle_env.id,
                                                     :content_view_id => content_view.id,
-                                                    :content_source => SmartProxy.find(host_params[:content_source_id]))
+                                                    :content_source_url => SmartProxyUrl.find(host_params[:content_source_url_id]))
         if host.operatingsystem.is_a?(Redhat)
           view_options = host.operatingsystem.kickstart_repos(host).map { |repo| OpenStruct.new(repo) }
         end

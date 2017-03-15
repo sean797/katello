@@ -1,7 +1,7 @@
 attributes :id, :uuid
 attributes :content_view_id, :content_view_name
 attributes :lifecycle_environment_id, :lifecycle_environment_name
-attributes :content_source_id, :content_source_name
+attributes :content_source_url_id
 
 child :content_view => :content_view do
   attributes :id, :name
@@ -11,8 +11,8 @@ child :lifecycle_environment => :lifecycle_environment do
   attributes :id, :name
 end
 
-child :content_source => :content_source do
-  attributes :id, :name, :url
+child :content_source_url => :content_source_url do
+  attributes :id, :url, :smart_proxy
 end
 
 node :errata_counts do |content_facet|

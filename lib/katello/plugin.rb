@@ -168,11 +168,11 @@ Foreman::Plugin.register :katello do
   apipie_ignored_controllers %w(::Api::V2::OrganizationsController)
 
   parameter_filter ::Host::Managed, :host_collection_ids => [],
-    :content_facet_attributes => [:content_view_id, :lifecycle_environment_id, :content_source_id,
+    :content_facet_attributes => [:content_view_id, :lifecycle_environment_id, :content_source_url_id,
                                   :host, :kickstart_repository_id],
     :subscription_facet_attributes => [:release_version, :autoheal, :service_level, :host,
                                        {:installed_products => [:product_id, :product_name, :arch, :version]}, :facts, :hypervisor_guest_uuids => []]
-  parameter_filter Hostgroup, :content_view_id, :lifecycle_environment_id, :content_source_id,
+  parameter_filter Hostgroup, :content_view_id, :lifecycle_environment_id, :content_source_url_id,
     :kickstart_repository_id
   parameter_filter Organization, :label, :service_level
   parameter_filter SmartProxy, :download_policy, :lifecycle_environment_ids => []
@@ -215,7 +215,7 @@ Foreman::Plugin.register :katello do
   register_facet Katello::Host::ContentFacet, :content_facet do
     api_view :list => 'katello/api/v2/content_facet/base_with_root', :single => 'katello/api/v2/content_facet/show'
     api_docs :content_facet_attributes, ::Katello::Api::V2::HostContentsController
-    template_compatibility_properties :content_source_id, :content_source
+    template_compatibility_properties :content_source_url_id, :content_source_url
   end
 
   register_facet Katello::Host::SubscriptionFacet, :subscription_facet do
